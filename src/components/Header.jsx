@@ -2,11 +2,24 @@ import React from 'react'
 import { GrStatusWarning } from "react-icons/gr";
 import {motion} from "framer-motion";
 
-import Logo from "./img/Camera.ico";
-import Avatar from "./img/User.ico";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app } from '../firebase.config';
+
+import Logo from "../img/Camera.ico";
+import Avatar from "../img/User.ico";
 import { Link } from 'react-router-dom';
 
 export const Header = () => {
+
+    const firebaseAuth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+const login = async () => {
+    const response = await signInWithPopup(firebaseAuth, provider)
+    console.log(response)
+
+};
+
   return (
     <header className='fixed z-50 w-screen p-6 px-16'>
         {/*desltop and tablet*/}
@@ -30,11 +43,16 @@ export const Header = () => {
                         <p className='text-xs text-white font-semibold'>2</p>
                     </div>
                 </div>
-                    <motion.img 
-                        whileTap={{ scale: 0.6}}
-                        src={Avatar} 
-                        className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer" 
-                        alt="userprofile"/>
+                    <div className='relative'>
+                        <motion.img 
+                            whileTap={{ scale: 0.6}}
+                            src={Avatar} 
+                            className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer" 
+                            alt="userprofile"
+                            onClick={login}
+                            />
+                            
+                    </div>
             </div>
         </div>
 
